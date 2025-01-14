@@ -134,7 +134,7 @@ export function OrderForm({
           onChange={handleChange}
           required
         >
-          <option value="">-- Select a Component --</option>
+          <option value="">Select a Component</option>
           {components.map((comp) => (
             <option key={comp} value={comp}>
               {comp}
@@ -153,7 +153,7 @@ export function OrderForm({
           onChange={handleChange}
           required
         >
-          <option value="">-- Select a Supplier --</option>
+          <option value="">Select a Supplier</option>
           {suppliers.map((s) => (
             <option key={s.id} value={s.name}>
               {s.name}

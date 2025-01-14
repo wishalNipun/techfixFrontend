@@ -147,7 +147,7 @@ export default function Home() {
               </Card>
             </TabsContent>
             <TabsContent
-              value="quotations\"
+              value="quotation"
               className="space-y-4 grid md:grid-cols-2 gap-4"
             >
               <Card>
@@ -173,15 +173,10 @@ export default function Home() {
             >
               <Card>
                 <CardHeader>
-                  <CardTitle>Add or Update Order</CardTitle>
+                  <CardTitle>Add Order</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {/* No initialOrder => This will create a NEW order */}
-                  <OrderForm
-                    onSuccess={() => {
-                      /* e.g., refresh the list */
-                    }}
-                  />
+                  <OrderForm onSuccess={() => {}} />
                 </CardContent>
               </Card>
               <Card>
