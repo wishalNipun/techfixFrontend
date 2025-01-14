@@ -4,13 +4,15 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, BarChart, Package2, Truck, Users } from "lucide-react";
-import { AddSupplierForm } from "./components/AddSupplierForm";
-import { AddInventoryForm } from "./components/AddInventoryForm";
-import { AddOrderForm } from "./components/AddOrderForm";
-import { SupplierList } from "./components/SupplierList";
-import { InventoryList } from "./components/InventoryList";
-import { OrderList } from "./components/OrderList";
+import { SupplierForm } from "./components/supplier/SupplierForm";
+import { InventoryForm } from "./components/inventory/InventoryForm";
+import { SupplierList } from "./components/supplier/SupplierList";
+import { InventoryList } from "./components/inventory/InventoryList";
 import { AnalyticsDashboard } from "./components/AnalyticsDashboard";
+import { QuotationForm } from "./components/quotation/QuotationForm";
+import { QuotationList } from "./components/quotation/QuotationList";
+import { OrderForm } from "./components/order/OrderForm";
+import { OrderList } from "./components/order/OrderList";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -29,17 +31,23 @@ export default function Home() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Suppliers</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Suppliers
+                </CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">12</div>
-                <p className="text-xs text-muted-foreground">Active suppliers</p>
+                <p className="text-xs text-muted-foreground">
+                  Active suppliers
+                </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Inventory</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Inventory
+                </CardTitle>
                 <Package2 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -49,44 +57,63 @@ export default function Home() {
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Orders</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Active Orders
+                </CardTitle>
                 <Truck className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">23</div>
-                <p className="text-xs text-muted-foreground">Processing orders</p>
+                <p className="text-xs text-muted-foreground">
+                  Processing orders
+                </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Monthly Orders</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Monthly Orders
+                </CardTitle>
                 <BarChart className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">+573</div>
-                <p className="text-xs text-muted-foreground">+201 since last month</p>
+                <p className="text-xs text-muted-foreground">
+                  +201 since last month
+                </p>
               </CardContent>
             </Card>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="space-y-4"
+          >
             <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="suppliers">Suppliers</TabsTrigger>
               <TabsTrigger value="inventory">Inventory</TabsTrigger>
+              <TabsTrigger value="quotation">Quotation</TabsTrigger>
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <AnalyticsDashboard />
             </TabsContent>
-            <TabsContent value="suppliers" className="space-y-4 grid md:grid-cols-2 gap-4">
+            <TabsContent
+              value="suppliers"
+              className="space-y-4 grid md:grid-cols-2 gap-4"
+            >
               <Card>
                 <CardHeader>
-                  <CardTitle>Add New Supplier</CardTitle>
+                  <CardTitle>Add Supplier</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <AddSupplierForm />
+                  <SupplierForm
+                    onSuccess={() => {
+                      console.log("Supplier added");
+                    }}
+                  />
                 </CardContent>
               </Card>
               <Card>
@@ -98,13 +125,16 @@ export default function Home() {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="inventory" className="space-y-4 grid md:grid-cols-2 gap-4">
+            <TabsContent
+              value="inventory"
+              className="space-y-4 grid md:grid-cols-2 gap-4"
+            >
               <Card>
                 <CardHeader>
                   <CardTitle>Add New Inventory</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <AddInventoryForm />
+                  <InventoryForm />
                 </CardContent>
               </Card>
               <Card>
@@ -116,24 +146,54 @@ export default function Home() {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="orders" className="space-y-4 grid md:grid-cols-2 gap-4">
+            <TabsContent
+              value="quotations\"
+              className="space-y-4 grid md:grid-cols-2 gap-4"
+            >
               <Card>
                 <CardHeader>
-                  <CardTitle>Place New Order</CardTitle>
+                  <CardTitle>Add Quotation</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <AddOrderForm />
+                  <QuotationForm />
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Recent Orders</CardTitle>
+                  <CardTitle>Quotation List</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <QuotationList />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent
+              value="orders"
+              className="space-y-4 grid md:grid-cols-2 gap-4"
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>Add or Update Order</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {/* No initialOrder => This will create a NEW order */}
+                  <OrderForm
+                    onSuccess={() => {
+                      /* e.g., refresh the list */
+                    }}
+                  />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Order List</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <OrderList />
                 </CardContent>
               </Card>
             </TabsContent>
+
             <TabsContent value="analytics" className="space-y-4">
               <AnalyticsDashboard />
             </TabsContent>

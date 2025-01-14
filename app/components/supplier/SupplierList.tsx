@@ -5,9 +5,13 @@ import { getSuppliers, deleteSupplier } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Trash2, Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SupplierForm } from "./SupplierForm"; // import the new unified form
 
 export function SupplierList() {
-  const [suppliers, setSuppliers] = useState([]);
+  const [suppliers, setSuppliers] = useState<any[]>([]);
+  const [editSupplier, setEditSupplier] = useState<any | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+
   const { toast } = useToast();
 
   useEffect(() => {
@@ -44,22 +48,49 @@ export function SupplierList() {
     }
   };
 
+  const handleEditClick = (supplier: any) => {
+    setEditSupplier(supplier);
+    setIsEditOpen(true);
+  };
+
+  const handleEditSuccess = () => {
+    setIsEditOpen(false);
+    setEditSupplier(null);
+    fetchSuppliers();
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditOpen(false);
+    setEditSupplier(null);
+  };
+
   return (
     <div className="space-y-4">
-      {suppliers.map((supplier: any) => (
+      {/* List of suppliers */}
+      {suppliers.map((supplier) => (
         <div
           key={supplier.id}
           className="flex items-center justify-between p-4 border rounded-lg"
         >
           <div>
             <h3 className="font-semibold">{supplier.name}</h3>
-            <p className="text-sm text-muted-foreground">{supplier.contactEmail}</p>
-            <p className="text-sm text-muted-foreground">{supplier.contactPhone}</p>
+            <p className="text-sm text-muted-foreground">
+              {supplier.contactEmail}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {supplier.contactPhone}
+            </p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="icon">
+            {/* EDIT Button */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleEditClick(supplier)}
+            >
               <Edit className="h-4 w-4" />
             </Button>
+            {/* DELETE Button */}
             <Button
               variant="destructive"
               size="icon"
@@ -70,6 +101,21 @@ export function SupplierList() {
           </div>
         </div>
       ))}
+
+      {/* Inline Edit Form or a Modal - here we show inline */}
+      {isEditOpen && editSupplier && (
+        <div className="border rounded-lg p-4 mt-4">
+          <h2 className="text-lg font-bold mb-2">Edit Supplier</h2>
+
+          <SupplierForm
+            // Pass the current supplier as initial data
+            initialSupplier={editSupplier}
+            // Refresh list on success & close the "edit" UI
+            onSuccess={handleEditSuccess}
+            onCancel={handleCancelEdit}
+          />
+        </div>
+      )}
     </div>
   );
 }
